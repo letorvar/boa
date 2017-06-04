@@ -2,6 +2,7 @@ var canvasSize = 500;
 var boardSize = 20;
 var tileSize = canvasSize / boardSize;
 var boaFrank = new Boa();
+var meat = new Food();
 
 function setup() {
     createCanvas(canvasSize, canvasSize);
@@ -12,6 +13,15 @@ function Boa() {
     this.x = boardSize / 2;
     this.y = boardSize / 2;
     this.direction = 'RIGHT';
+    this.color = "#E9C46A";
+}
+
+function Food() {
+    this.x = Math.floor(Math.random() * boardSize);
+    this.y = Math.floor(Math.random() * boardSize);
+    console.log('x : ' + this.x);
+    console.log('y : ' + this.y);
+    this.color = "#E76F51";
 }
 
 function keyPressed() {
@@ -34,9 +44,8 @@ function draw() {
             rect(x * tileSize, y * tileSize, tileSize, tileSize);
         }
     }
-    fill("#E9C46A");
+    fill(boaFrank.color);
     rect(boaFrank.x * tileSize, boaFrank.y * tileSize, tileSize, tileSize);
-    console.log(boaFrank.direction);
     if (boaFrank.direction === 'RIGHT') {
         boaFrank.x = (boaFrank.x + 1) % boardSize;
     } else if (boaFrank.direction === 'LEFT') {
@@ -47,4 +56,6 @@ function draw() {
         boaFrank.y = (boaFrank.y + boardSize + 1) % boardSize;
     }
 
+    fill(meat.color);
+    rect(meat.x * tileSize, meat.y * tileSize, tileSize, tileSize);
 }
