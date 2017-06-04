@@ -1,13 +1,28 @@
 var canvasSize = 500;
 var boardSize = 20;
 var tileSize = canvasSize / boardSize;
-var boa;
+var boaFrank = new Boa();
 
 function setup() {
     createCanvas(canvasSize, canvasSize);
-    boa = {
-        x: boardSize / 2,
-        y: boardSize / 2
+
+}
+
+function Boa() {
+    this.x = boardSize / 2;
+    this.y = boardSize / 2;
+    this.direction = 'RIGHT';
+}
+
+function keyPressed() {
+    if (keyCode === LEFT_ARROW) {
+        boaFrank.direction = 'LEFT';
+    } else if (keyCode === RIGHT_ARROW) {
+        boaFrank.direction = 'RIGHT';
+    } else if (keyCode === DOWN_ARROW) {
+        boaFrank.direction = 'DOWN';
+    } else if (keyCode === UP_ARROW) {
+        boaFrank.direction = 'UP';
     }
 }
 
@@ -20,6 +35,16 @@ function draw() {
         }
     }
     fill("#E9C46A");
-    rect(boa.x * tileSize, boa.y * tileSize, tileSize, tileSize);
-    boa.x = (boa.x + 1) % boardSize;
+    rect(boaFrank.x * tileSize, boaFrank.y * tileSize, tileSize, tileSize);
+    console.log(boaFrank.direction);
+    if (boaFrank.direction === 'RIGHT') {
+        boaFrank.x = (boaFrank.x + 1) % boardSize;
+    } else if (boaFrank.direction === 'LEFT') {
+        boaFrank.x = (boaFrank.x + boardSize - 1) % boardSize;
+    } else if (boaFrank.direction === 'UP') {
+        boaFrank.y = (boaFrank.y + boardSize - 1) % boardSize;
+    } else if (boaFrank.direction === 'DOWN') {
+        boaFrank.y = (boaFrank.y + boardSize + 1) % boardSize;
+    }
+
 }
