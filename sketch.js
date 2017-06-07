@@ -6,26 +6,24 @@ var meat = new Food();
 
 function setup() {
     createCanvas(canvasSize, canvasSize);
-    boaFrank.body.push(createVector(10, 10));
+    boaFrank.body.push(createVector(boardSize/2, boardSize/2));
+    boaFrank.body.push(createVector(boardSize/2-1, boardSize/2));
+    boaFrank.body.push(createVector(boardSize/2-2, boardSize/2));
+    boaFrank.body.push(createVector(boardSize/2-3, boardSize/2));
+    boaFrank.body.push(createVector(boardSize/2-4, boardSize/2));
+    boaFrank.body.push(createVector(boardSize/2-5, boardSize/2));
 }
 
 function Boa() {
-    //this.x = boardSize / 2;
-    //this.y = boardSize / 2;
     this.body = [];
-
-    // this.body.push({ x: (boardSize / 2) - 1, y: boardSize / 2 });
-    // this.body.push({ x: (boardSize / 2) - 2, y: boardSize / 2 });
-    // this.body.push({ x: (boardSize / 2) - 3, y: boardSize / 2 });
-    console.log(this.body);
     this.direction = 'RIGHT';
     this.color = "#E9C46A";
     this.move = function() {
-        var head = this.body[length - 1];
+        var head = this.body[this.body.length - 1];
         for (var i = 0; i < this.body.length - 1; i++) {
             this.body[i] = this.body[i + 1];
         }
-        this.body[this.body.length - 1] = createVector(head.x + 1, head.y);
+        this.body[this.body.length - 1] = createVector((head.x + 1) % boardSize, head.y);
         // var head = this.body[this.body.length - 1];
         // var tail = this.body.pop();
         //     var i = this.body.length - 1;
@@ -74,7 +72,7 @@ function keyPressed() {
 }
 
 function draw() {
-    frameRate(0.2);
+    frameRate(10);
     for (var x = 0; x < boardSize; x++) {
         for (var y = 0; y < boardSize; y++) {
             fill("#2A9D8F");
