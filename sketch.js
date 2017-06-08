@@ -18,6 +18,15 @@ function Boa() {
     this.body = [];
     this.direction = 'RIGHT';
     this.color = "#E9C46A";
+    this.eat = function() {
+        var head = this.body[this.body.length - 1];
+        var foodDistance = dist(head.x, head.y, meat.x, meat.y);
+        console.log(foodDistance);
+        if (foodDistance < 1) {
+            this.body.push(createVector(meat.x, meat.y));
+            meat = new Food();
+        }
+    }
     this.move = function() {
         var head = this.body[this.body.length - 1];
         for (var i = 0; i < this.body.length - 1; i++) {
@@ -38,8 +47,6 @@ function Boa() {
 function Food() {
     this.x = Math.floor(Math.random() * boardSize);
     this.y = Math.floor(Math.random() * boardSize);
-    console.log('x : ' + this.x);
-    console.log('y : ' + this.y);
     this.color = "#E76F51";
 }
 
@@ -56,7 +63,7 @@ function keyPressed() {
 }
 
 function draw() {
-    frameRate(10);
+    frameRate(5);
     for (var x = 0; x < boardSize; x++) {
         for (var y = 0; y < boardSize; y++) {
             fill("#2A9D8F");
@@ -70,7 +77,7 @@ function draw() {
     }
 
     boaFrank.move();
-
+    boaFrank.eat(meat);
     fill(meat.color);
     rect(meat.x * tileSize, meat.y * tileSize, tileSize, tileSize);
 }
