@@ -6,12 +6,12 @@ var meat = new Food();
 
 function setup() {
     createCanvas(canvasSize, canvasSize);
-    boaFrank.body.push(createVector(boardSize/2, boardSize/2));
-    boaFrank.body.push(createVector(boardSize/2-1, boardSize/2));
-    boaFrank.body.push(createVector(boardSize/2-2, boardSize/2));
-    boaFrank.body.push(createVector(boardSize/2-3, boardSize/2));
-    boaFrank.body.push(createVector(boardSize/2-4, boardSize/2));
-    boaFrank.body.push(createVector(boardSize/2-5, boardSize/2));
+    boaFrank.body.push(createVector(boardSize / 2, boardSize / 2));
+    boaFrank.body.push(createVector(boardSize / 2 - 1, boardSize / 2));
+    boaFrank.body.push(createVector(boardSize / 2 - 2, boardSize / 2));
+    boaFrank.body.push(createVector(boardSize / 2 - 3, boardSize / 2));
+    boaFrank.body.push(createVector(boardSize / 2 - 4, boardSize / 2));
+    boaFrank.body.push(createVector(boardSize / 2 - 5, boardSize / 2));
 }
 
 function Boa() {
@@ -23,31 +23,15 @@ function Boa() {
         for (var i = 0; i < this.body.length - 1; i++) {
             this.body[i] = this.body[i + 1];
         }
-        this.body[this.body.length - 1] = createVector((head.x + 1) % boardSize, head.y);
-        // var head = this.body[this.body.length - 1];
-        // var tail = this.body.pop();
-        //     var i = this.body.length - 1;
-        //     while (i >= 0) {
-        //         console.log('Iteracja : ' + i);
-        //         if (i === 0) {
-        //             if (this.direction === 'RIGHT') {
-        //                 this.body[i].x = (this.body[i].x + 1) % boardSize;
-        //             } else if (this.direction === 'LEFT') {
-        //                 this.body[i].x = (this.body[i].x + boardSize - 1) % boardSize;
-        //             } else if (this.direction === 'UP') {
-        //                 this.body[i].y = (this.body[i].y + boardSize - 1) % boardSize;
-        //             } else if (this.direction === 'DOWN') {
-        //                 this.body[i].y = (this.body[i].y + boardSize + 1) % boardSize;
-        //             }
-        //         } else {
-        //             // var current = this.body[i];
-        //             var next = this.body[i - 1];
-        //             console.log('Przesuwam : ' + this.body[i].x + '-' + this.body[i].y + ' na ' + next.x + '-' + next.y);
-        //             this.body[i] = next;
-        //         }
-        //         i--;
-        //     }
-        //     // this.body.unshift(tail);
+        if (this.direction === 'RIGHT') {
+            this.body[this.body.length - 1] = createVector((head.x + 1) % boardSize, head.y);
+        } else if (this.direction === 'LEFT') {
+            this.body[this.body.length - 1] = createVector((head.x - 1 + boardSize) % boardSize, head.y);
+        } else if (this.direction === 'UP') {
+            this.body[this.body.length - 1] = createVector(head.x, (head.y - 1 + boardSize) % boardSize);
+        } else if (this.direction === 'DOWN') {
+            this.body[this.body.length - 1] = createVector(head.x, (head.y + 1) % boardSize);
+        }
     }
 }
 
@@ -82,7 +66,6 @@ function draw() {
 
     for (var i = 0; i < boaFrank.body.length; i++) {
         fill(boaFrank.color);
-        //console.log(i + ' : ' + boaFrank.body[i].x + ' ' + boaFrank.body[i].y);
         rect((boaFrank.body[i].x) * tileSize, (boaFrank.body[i].y) * tileSize, tileSize, tileSize);
     }
 
