@@ -23,8 +23,11 @@ function Boa() {
         var foodDistance = dist(head.x, head.y, meat.x, meat.y);
         console.log(foodDistance);
         if (foodDistance < 1) {
-            this.body.push(createVector(meat.x, meat.y));
-            meat = new Food();
+            var nextField = this.nextStep(head.x, head.y, this.direction, boardSize);
+            if(meat.x === nextField.x && meat.y === nextField.y) {
+                this.body.push(createVector(meat.x, meat.y));
+                meat = new Food();
+            }
         }
     }
     this.move = function() {
@@ -32,14 +35,17 @@ function Boa() {
         for (var i = 0; i < this.body.length - 1; i++) {
             this.body[i] = this.body[i + 1];
         }
-        if (this.direction === 'RIGHT') {
-            this.body[this.body.length - 1] = createVector((head.x + 1) % boardSize, head.y);
-        } else if (this.direction === 'LEFT') {
-            this.body[this.body.length - 1] = createVector((head.x - 1 + boardSize) % boardSize, head.y);
-        } else if (this.direction === 'UP') {
-            this.body[this.body.length - 1] = createVector(head.x, (head.y - 1 + boardSize) % boardSize);
-        } else if (this.direction === 'DOWN') {
-            this.body[this.body.length - 1] = createVector(head.x, (head.y + 1) % boardSize);
+     this.body[this.body.length - 1] = this.nextStep(head.x, head.y, this.direction, boardSize);
+    }
+    this.nextStep = function(x,y, direction, boardSize){
+           if (direction === 'RIGHT') {
+            return createVector((x + 1) % boardSize,y);
+        } else if (direction === 'LEFT') {
+             return createVector((x - 1 + boardSize) % boardSize,y);
+        } else if (direction === 'UP') {
+             return createVector(x, (y - 1 + boardSize) % boardSize);
+        } else if (direction === 'DOWN') {
+             return createVector(x, (y + 1) % boardSize);
         }
     }
 }
