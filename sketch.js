@@ -3,6 +3,7 @@ var boardSize = 20;
 var tileSize = canvasSize / boardSize;
 var boaFrank = new Boa();
 var meat = new Food();
+var bg;
 
 function setup() {
     createCanvas(canvasSize, canvasSize);
@@ -12,6 +13,8 @@ function setup() {
     boaFrank.body.push(createVector(boardSize / 2 - 3, boardSize / 2));
     boaFrank.body.push(createVector(boardSize / 2 - 4, boardSize / 2));
     boaFrank.body.push(createVector(boardSize / 2 - 5, boardSize / 2));
+
+    bg = loadImage('img/background.jpg');
 }
 
 function Boa() {
@@ -21,13 +24,9 @@ function Boa() {
     this.eat = function() {
         var head = this.body[this.body.length - 1];
         var foodDistance = dist(head.x, head.y, meat.x, meat.y);
-        console.log(foodDistance);
-        if (foodDistance < 1) {
-            var nextField = this.nextStep(head.x, head.y, this.direction, boardSize);
-            if(meat.x === nextField.x && meat.y === nextField.y) {
-                this.body.push(createVector(meat.x, meat.y));
-                meat = new Food();
-            }
+        if(meat.x === head.x && meat.y === head.y) {
+            this.body.push(createVector(meat.x, meat.y));
+            meat = new Food();
         }
     }
     this.move = function() {
@@ -35,17 +34,17 @@ function Boa() {
         for (var i = 0; i < this.body.length - 1; i++) {
             this.body[i] = this.body[i + 1];
         }
-     this.body[this.body.length - 1] = this.nextStep(head.x, head.y, this.direction, boardSize);
+        this.body[this.body.length - 1] = this.nextStep(head.x, head.y, this.direction, boardSize);
     }
     this.nextStep = function(x,y, direction, boardSize){
-           if (direction === 'RIGHT') {
+        if (direction === 'RIGHT') {
             return createVector((x + 1) % boardSize,y);
         } else if (direction === 'LEFT') {
-             return createVector((x - 1 + boardSize) % boardSize,y);
+            return createVector((x - 1 + boardSize) % boardSize,y);
         } else if (direction === 'UP') {
-             return createVector(x, (y - 1 + boardSize) % boardSize);
+            return createVector(x, (y - 1 + boardSize) % boardSize);
         } else if (direction === 'DOWN') {
-             return createVector(x, (y + 1) % boardSize);
+            return createVector(x, (y + 1) % boardSize);
         }
     }
 }
@@ -57,33 +56,35 @@ function Food() {
 }
 
 function keyPressed() {
-    if (keyCode === LEFT_ARROW) {
+    if (keyCode === LEFT_ARROW && boaFrank.direction !== 'RIGHT') {
         boaFrank.direction = 'LEFT';
-    } else if (keyCode === RIGHT_ARROW) {
+    } else if (keyCode === RIGHT_ARROW && boaFrank.direction !== 'LEFT') {
         boaFrank.direction = 'RIGHT';
-    } else if (keyCode === DOWN_ARROW) {
+    } else if (keyCode === DOWN_ARROW && boaFrank.direction !== 'UP') {
         boaFrank.direction = 'DOWN';
-    } else if (keyCode === UP_ARROW) {
+    } else if (keyCode === UP_ARROW && boaFrank.direction !== 'DOWN') {
         boaFrank.direction = 'UP';
     }
 }
 
 function draw() {
     frameRate(5);
-    for (var x = 0; x < boardSize; x++) {
-        for (var y = 0; y < boardSize; y++) {
-            fill("#2A9D8F");
-            rect(x * tileSize, y * tileSize, tileSize, tileSize);
-        }
-    }
+    noStroke();
+    background(bg);
+    // for (var x = 0; x < boardSize; x++) {
+    //     for (var y = 0; y < boardSize; y++) {
+    //         fill(42,157,142, 100);
+    //         rect(x * tileSize, y * tileSize, tileSize, tileSize);
+    //     }
+    // }
 
     for (var i = 0; i < boaFrank.body.length; i++) {
         fill(boaFrank.color);
         rect((boaFrank.body[i].x) * tileSize, (boaFrank.body[i].y) * tileSize, tileSize, tileSize);
     }
 
-    boaFrank.move();
     boaFrank.eat(meat);
+    boaFrank.move();
     fill(meat.color);
     rect(meat.x * tileSize, meat.y * tileSize, tileSize, tileSize);
 }
