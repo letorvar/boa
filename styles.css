@@ -1,0 +1,11 @@
+body {
+    background-image: url("img/tukan.jpg");
+    background-repeat: repeat;
+}
+
+.center {
+    margin: auto;
+    width: 45%;
+    /*border: 3px solid green;*/
+    padding: 10px;
+}

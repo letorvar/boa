@@ -1,5 +1,5 @@
 var canvasSize = 500;
-var boardSize = 100;
+var boardSize = 50;
 var tileSize = canvasSize / boardSize;
 var boaFrank = new Boa();
 var meat = new Food(boaFrank);
@@ -7,7 +7,8 @@ var bg;
 var hasMoved = false;
 
 function setup() {
-    createCanvas(canvasSize, canvasSize);
+    var canvas = createCanvas(canvasSize, canvasSize);
+    canvas.parent('sketch-holder');
     boaFrank.newGame();
     meat.newFood();
 }
