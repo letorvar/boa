@@ -1,10 +1,11 @@
 var canvasSize = 500;
-var boardSize = 50;
+var boardSize = 36;
 var tileSize = canvasSize / boardSize;
 var boaFrank = new Boa();
 var meat = new Food(boaFrank);
 var bg;
 var hasMoved = false;
+var isGameRunning = true;
 
 function setup() {
     var canvas = createCanvas(canvasSize, canvasSize);
@@ -17,12 +18,14 @@ function Boa() {
     this.body = [];
     this.direction = 'RIGHT';
     this.color = "#E9C46A";
+    this.points = 10;
 
     this.eat = function() {
         var head = this.body[this.body.length - 1];
         if (meat.x === head.x && meat.y === head.y) {
             this.body.push(createVector(meat.x, meat.y));
             meat.newFood();
+            this.points += 10;
         }
     }
     this.getHead = function() {
@@ -35,8 +38,9 @@ function Boa() {
         }
         this.body[this.body.length - 1] = this.nextStep(head.x, head.y, this.direction, boardSize);
         if (this.checkIfBite()) {
-            this.newGame();
-            meat.newFood();
+            // this.newGame();
+            // meat.newFood();
+            isGameRunning = false; 
         }
         hasMoved = false;
     }
@@ -92,7 +96,12 @@ function Food() {
 
 }
 
-function keyPressed() {
+function keyPressed() { 
+    if (keyCode === ENTER && !isGameRunning){
+        boaFrank.newGame();
+        meat.newFood();
+        isGameRunning = true; 
+    }
     if (!hasMoved) {
         if (keyCode === LEFT_ARROW && boaFrank.direction !== 'RIGHT') {
             boaFrank.direction = 'LEFT';
@@ -121,9 +130,19 @@ function draw() {
         fill(boaFrank.color);
         rect((boaFrank.body[i].x) * tileSize, (boaFrank.body[i].y) * tileSize, tileSize, tileSize);
     }
-
-    boaFrank.eat();
-    boaFrank.move();
     fill(meat.color);
     rect(meat.x * tileSize, meat.y * tileSize, tileSize, tileSize);
+    if (isGameRunning){
+        boaFrank.eat();
+        boaFrank.move();
+    } else { 
+        showLooserInfo();
+    }
+}
+
+function showLooserInfo(){
+    textSize(30);
+    fill(0);
+    text("YOUR SCORE: " + boaFrank.points, canvasSize/2 - 190, canvasSize/2);
+    text("Press ENTER to start new game", canvasSize/2 - 190, canvasSize/2 + 55);
 }
