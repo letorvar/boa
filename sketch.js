@@ -9,11 +9,11 @@ function setup() {
     meat.newFood(boaFrank);
 }
 
-function keyPressed() {
-    if (keyCode === ENTER && !game.isGameRunning) {
+function keyPressed() { 
+    if (keyCode === ENTER && !game.isGameRunning){
         boaFrank.newSnake(game.boardSize);
         meat.newFood(boaFrank);
-        game.isGameRunning = true;
+        game.isGameRunning = true; 
     }
     if (!boaFrank.hasMoved) {
         if (keyCode === LEFT_ARROW && boaFrank.direction !== 'RIGHT') {
@@ -45,10 +45,11 @@ function draw() {
     }
     fill(meat.color);
     rect(meat.x * game.tileSize, meat.y * game.tileSize, game.tileSize, game.tileSize);
-    if (game.isGameRunning) {
+    if (game.isGameRunning){
         boaFrank.eat(meat);
         boaFrank.move(game.boardSize);
-    } else {
+    } else { 
         game.showLooserInfo(boaFrank.points);
     }
 }
+
