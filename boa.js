@@ -52,5 +52,7 @@ function Boa() {
     this.newSnake = function(boardSize) {
         this.body = [];
         this.body.push(createVector(boardSize / 2, boardSize / 2));
+        this.points = 10;
+        
     }
 }

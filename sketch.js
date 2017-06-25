@@ -26,7 +26,7 @@ function keyPressed() {
             boaFrank.direction = 'UP';
         }
     }
-    hasMoved = true;
+    boaFrank.hasMoved = true;
 }
 
 function draw() {
